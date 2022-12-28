@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  server:
+    container_name: "request-emulator"
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
