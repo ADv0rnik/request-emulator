@@ -45,6 +45,5 @@ FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./ ./request_emulator
 
-CMD ["uvicorn", "request_emulator.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 
