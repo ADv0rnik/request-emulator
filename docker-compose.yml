@@ -8,4 +8,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    command: ["uvicorn", "request_emulator.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    volumes:
+      - ./app:/request_emulator/app
+    command: bash -c "cd ./request_emulator && sh ./scripts/start_app.sh"

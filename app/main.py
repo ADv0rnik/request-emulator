@@ -1,9 +1,18 @@
 import uvicorn
 from fastapi import FastAPI
-from app.config import settings, Settings
+from config import settings, Settings
 
 
-app = FastAPI()
+def start_application(config: Settings):
+    app = FastAPI(
+        debug=True,
+        version=config.PROJECT_VERSION,
+        title=config.PROJECT_NAME
+    )
+    return app
+
+
+app = start_application(settings)
 
 
 @app.get("/")
