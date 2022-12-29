@@ -12,17 +12,17 @@ def start_application(config: Settings):
     return app
 
 
-app = start_application(settings)
+application = start_application(settings)
 
 
-@app.get("/")
+@application.get("/")
 async def root():
     return {"message": "Hello World"}
 
 
 if __name__ == "__main__":
     uvicorn.run(
-        "main.py",
+        "main:application",
         port=int(settings.PROJECT_PORT),
         host=settings.PROJECT_HOST,
         reload=True

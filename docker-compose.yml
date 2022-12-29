@@ -4,10 +4,12 @@ services:
   server:
     container_name: "request-emulator"
     restart: always
+    env_file:
+      - .env
     build:
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - ${PROJECT_PORT}:${PROJECT_PORT}
     volumes:
       - ./app:/request_emulator/app
     command: bash -c "cd ./request_emulator && sh ./scripts/start_app.sh"

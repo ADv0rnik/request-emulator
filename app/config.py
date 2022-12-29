@@ -1,4 +1,5 @@
 import os
+
 from pydantic import BaseSettings
 
 
@@ -12,10 +13,9 @@ class Settings(BaseSettings):
     PROJECT_HOST: str
     PROJECT_PORT: int
 
-
-class Config:
-    env_file = ENV_PATH
-    env_file_encoding = "utf-8"
+    class Config:
+        env_file = ENV_PATH
+        env_file_encoding = "utf-8"
 
 
 settings = Settings()
