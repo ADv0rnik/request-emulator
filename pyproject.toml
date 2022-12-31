@@ -8,6 +8,9 @@ authors = ["Alex Dvornik <aadvornik@gmail.com>"]
 python = "^3.11"
 fastapi = {extras = ["all"], version = "^0.88.0"}
 pydantic = "^1.10.2"
+SQLAlchemy = "^1.4.45"
+alembic = "^1.9.1"
+psycopg2-binary = "^2.9.5"
 
 [tool.poetry.dev-dependencies]
 
