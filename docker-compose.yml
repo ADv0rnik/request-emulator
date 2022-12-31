@@ -6,6 +6,17 @@ services:
     container_name: postgres
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: -p ${POSTGRES_PORT}
   server:
     container_name: "request-emulator"
     restart: always
@@ -15,6 +26,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - ${PROJECT_PORT}:${PROJECT_PORT}
+    depends_on:
+      - db
     volumes:
       - ./app:/request_emulator/app
     command: bash -c "cd ./request_emulator && sh ./scripts/start_app.sh"
