@@ -11,6 +11,7 @@ pydantic = "^1.10.2"
 SQLAlchemy = "^1.4.45"
 alembic = "^1.9.1"
 psycopg2-binary = "^2.9.5"
+databases = "^0.7.0"
 
 [tool.poetry.dev-dependencies]
 
