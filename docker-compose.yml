@@ -4,6 +4,9 @@ services:
   db:
     image: postgres:14.5
     container_name: postgres
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     env_file:
       - .env
     environment:
@@ -12,22 +15,28 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    healthcheck:
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    command: -p ${POSTGRES_PORT}
-  server:
-    container_name: "request-emulator"
-    restart: always
-    env_file:
-      - .env
-    build:
-      dockerfile: Dockerfile
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
     ports:
-      - ${PROJECT_PORT}:${PROJECT_PORT}
+      - 5050:80
     depends_on:
       - db
+  app:
+    container_name: app
+    build:
+      dockerfile: Dockerfile
     volumes:
-      - ./app:/request_emulator/app
-    command: bash -c "cd ./request_emulator && sh ./scripts/start_app.sh"
+      - ./backend:/request_emulator/backend
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    restart: always
+    command: bash -c "uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+volumes:
+  postgres_data:
