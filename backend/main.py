@@ -1,6 +1,9 @@
 import uvicorn
-from fastapi import FastAPI
-from core.config import Settings, settings
+from fastapi import FastAPI, APIRouter
+from starlette.middleware.cors import CORSMiddleware
+
+from app.core.config import Settings, settings
+from app.api.routes import router
 
 
 def start_application(config: Settings) -> FastAPI:
@@ -15,10 +18,17 @@ def start_application(config: Settings) -> FastAPI:
 
 app = start_application(settings)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_ORIGIN,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get('/')
-def get_index():
-    return {"Hello": "world"}
+api_router = APIRouter(prefix=settings.API_URL)
+api_router.include_router(router)
+app.include_router(api_router)
 
 
 if __name__ == "__main__":
