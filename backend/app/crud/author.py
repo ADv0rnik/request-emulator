@@ -11,6 +11,7 @@ def create_author(db: Session, author: AuthorCreate):
     )
     db.add(db_author)
     db.commit()
+    db.refresh(db_author)
     return db_author
 
 

@@ -16,7 +16,7 @@ class Book(Timestamp, Base):
     rating = Column(Integer, nullable=False)
     author_id = Column(Integer, ForeignKey("authors.id"))
 
-    author = relationship("Authors")
+    author = relationship("Author")
 
 
 class Author(Timestamp, Base):
