@@ -26,7 +26,7 @@ services:
     depends_on:
       - db
   app:
-    container_name: app
+    container_name: api
     build:
       dockerfile: Dockerfile
     volumes:
