@@ -1,9 +1,12 @@
 import uvicorn
+import logging.config
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.cors import CORSMiddleware
 
-from app.core.config import Settings, settings
+from app.core.config import Settings, settings, LOGGING_CONFIG
 from app.api.routes import router
+
+logging.config.dictConfig(LOGGING_CONFIG)
 
 
 def start_application(config: Settings) -> FastAPI:
