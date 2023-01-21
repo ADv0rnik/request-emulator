@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 
 from app.models.models import Book
@@ -15,3 +17,11 @@ def create_book(db: Session, book: BookCreate):
     db.commit()
     db.refresh(db_book)
     return db_book
+
+
+def get_book_by_title(db: Session, title: str) -> Book:
+    return db.query(Book).filter(Book.title == title).first()
+
+
+def get_books(db: Session) -> List[Book]:
+    return db.query(Book).all()
