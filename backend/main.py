@@ -7,6 +7,7 @@ from app.core.config import Settings, settings, LOGGING_CONFIG
 from app.api.routes import router
 
 logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger('emulator')
 
 
 def start_application(config: Settings) -> FastAPI:
@@ -41,3 +42,4 @@ if __name__ == "__main__":
         host=settings.PROJECT_HOST,
         reload=True
     )
+    logger.info("Start application")
