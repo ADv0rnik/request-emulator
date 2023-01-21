@@ -3,7 +3,7 @@ import logging.config
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.cors import CORSMiddleware
 
-from app.core.config import Settings, settings, LOGGING_CONFIG
+from app.core.config import Settings, settings, LOGGING_CONFIG, BASE_URL_PATH
 from app.api.routes import router
 
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -15,7 +15,9 @@ def start_application(config: Settings) -> FastAPI:
         debug=True,
         title=config.PROJECT_NAME,
         version=config.PROJECT_VERSION,
-        openapi_url=f"{config.API_URL}/request_emulator.json"
+        openapi_url=f"{config.API_URL}/request_emulator.json",
+        docs_url=f"{config.API_URL}/docs",
+        redoc_url=f"{config.API_URL}/redoc"
     )
     return application
 

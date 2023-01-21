@@ -21,4 +21,9 @@ def create_author(db: Session, author: AuthorCreate):
     return db_author
 
 
+def get_author_by_last_name(db: Session, last_name: str) -> Author:
+    return db.query(Author).filter(Author.last_name == last_name).first()
+
+
+
 
