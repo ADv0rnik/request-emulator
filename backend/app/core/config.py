@@ -5,6 +5,7 @@ from pydantic.networks import AnyHttpUrl
 
 BASE_DIR = (Path(__file__) / ".." / ".." / ".." / "..").resolve()
 ENV_PATH = (os.path.join(BASE_DIR, ".env"))
+BASE_URL_PATH = '/api'
 
 
 class Settings(BaseSettings):
