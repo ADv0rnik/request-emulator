@@ -25,3 +25,7 @@ def get_book_by_title(db: Session, title: str) -> Book:
 
 def get_books(db: Session) -> List[Book]:
     return db.query(Book).all()
+
+
+def get_book_by_id(db: Session, book_id: int) -> Book:
+    return db.query(Book).filter(Book.id == book_id).first()
