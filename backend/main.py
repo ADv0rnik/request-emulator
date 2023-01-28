@@ -3,7 +3,7 @@ import logging.config
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.cors import CORSMiddleware
 
-from app.core.config import Settings, settings, LOGGING_CONFIG, BASE_URL_PATH
+from app.core.config import Settings, settings, LOGGING_CONFIG
 from app.api.routes import router
 
 logging.config.dictConfig(LOGGING_CONFIG)
