@@ -5,7 +5,6 @@ from pydantic.networks import AnyHttpUrl
 
 BASE_DIR = (Path(__file__) / ".." / ".." / ".." / "..").resolve()
 ENV_PATH = (os.path.join(BASE_DIR, ".env"))
-BASE_URL_PATH = '/api'
 
 
 class Settings(BaseSettings):
@@ -13,6 +12,15 @@ class Settings(BaseSettings):
     PROJECT_VERSION: str
     PROJECT_HOST: str
     PROJECT_PORT: int
+
+    INIT_AUTHOR: list = [
+        {"fname": "John", "lname": "Tolkien"},
+        {"fname": "Aizek", "lname": "Azimov"}
+    ]
+    INIT_BOOK: list = [
+        {"title": "Hobbit", "description": "Bilbo's adventures", "rating": 10, "author_id": 1},
+        {"title": "Robot dreams", "description": "About robots", "rating": 9, "author_id": 2}
+    ]
 
     ALLOWED_ORIGIN: list[AnyHttpUrl] = [
         'http://localhost',
