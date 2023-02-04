@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 from sqlalchemy.orm import Session
 
@@ -27,6 +28,10 @@ def get_author_by_id(db: Session,  author_id: int) -> Author:
 
 def get_author_by_last_name(db: Session, last_name: str) -> Author:
     return db.query(Author).filter(Author.last_name == last_name).first()
+
+
+def get_authors(db: Session) -> List[Author]:
+    return db.query(Author).all()
 
 
 def create_init_author(db: Session, author: dict):

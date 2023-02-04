@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import List, Dict
 
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
@@ -7,9 +7,9 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from fastapi import Depends, HTTPException
 from app.schemas.authors import Author, AuthorCreate
-from app.schemas.books import Book, BookCreate
-from app.crud.author import create_author, get_author_by_last_name, get_author_by_id
-from app.crud.book import create_book, get_book_by_title, get_books, get_book_by_id
+from app.schemas.books import Book, BookCreate, BookUpdate
+from app.crud.author import create_author, get_author_by_last_name, get_author_by_id, get_authors
+from app.crud.book import create_book, get_book_by_title, get_books, get_book_by_id, update_book_by_id
 
 
 router = APIRouter()
@@ -17,17 +17,20 @@ logger = logging.getLogger('emulator')
 
 
 @router.post("/author", response_model=Author)
-def create_new_author(author: AuthorCreate, db: Session = Depends(get_db)):
+def create_new_author(author: AuthorCreate, db: Session = Depends(get_db)) -> Author:
     if db_author := get_author_by_last_name(db, author.last_name):
         logger.warning(f"Author with this last name '{db_author.last_name}' is already exist")
         raise HTTPException(status_code=400, detail="Author is already exist")
     return create_author(db, author)
 
-#TODO: Get all authors
+
+@router.get('/author', response_model=List[Author])
+def get_authors_list(db: Session = Depends(get_db)) -> List[Author]:
+    return get_authors(db)
 
 
 @router.get("/author/{author_id}", response_model=Author)
-def get_author(author_id: int, db: Session = Depends(get_db)):
+def get_author(author_id: int, db: Session = Depends(get_db)) -> Author:
     if db_author := get_author_by_id(db, author_id):
         return db_author
     logger.error(f"Author with id {author_id} does not exist")
@@ -48,7 +51,7 @@ def create_new_book(book: BookCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/book", response_model=List[Book])
-def get_books_list(db: Session = Depends(get_db)):
+def get_books_list(db: Session = Depends(get_db)) -> List[Book]:
     return get_books(db=db)
 
 
@@ -61,7 +64,7 @@ def get_book(book_id: int, db: Session = Depends(get_db)):
 
 
 @router.delete('/book/{book_id}')
-def delete_book(book_id: int, db: Session = Depends(get_db)):
+def delete_book(book_id: int, db: Session = Depends(get_db)) -> dict:
     db_book = get_book_by_id(db, book_id)
     if not db_book:
         logger.error(f'Book with id={book_id} does not exist')
@@ -70,3 +73,12 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.commit()
     logger.info(f'Status: 200; Book with id={book_id} has been deleted')
     return {'status': 'ok', 'detail': 'Book with id={} has been deleted'.format(book_id)}
+
+
+@router.put('/book/{book_id}')
+def update_book(book_id: int, book: BookUpdate, db: Session = Depends(get_db)):
+    if db_book := get_book_by_id(db, book_id):
+        update_book_by_id(db, db_book, book)
+        return {'status': 'ok', 'detail': 'Book with id={} has been updated'.format(book_id)}
+    logger.error(f'Book with id={book_id} does not exist')
+    raise HTTPException(status_code=400, detail=f'Book with id={book_id} does not exist')

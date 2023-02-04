@@ -4,7 +4,7 @@ from typing import List
 from sqlalchemy.orm import Session
 
 from app.models.models import Book
-from app.schemas.books import BookCreate
+from app.schemas.books import BookCreate, BookUpdate
 
 logger = logging.getLogger('emulator')
 
@@ -32,3 +32,11 @@ def get_books(db: Session) -> List[Book]:
 
 def get_book_by_id(db: Session, book_id: int) -> Book:
     return db.query(Book).filter(Book.id == book_id).first()
+
+
+def update_book_by_id(db: Session, db_book: Book, book: BookUpdate):
+    book_data = book.dict(exclude_unset=True)
+    for key, value in book_data.items():
+        setattr(db_book, key, value)
+    db.commit()
+    db.refresh(db_book)
