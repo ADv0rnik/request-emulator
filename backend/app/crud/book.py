@@ -1,9 +1,12 @@
+import logging
 from typing import List
 
 from sqlalchemy.orm import Session
 
 from app.models.models import Book
 from app.schemas.books import BookCreate
+
+logger = logging.getLogger('emulator')
 
 
 def create_book(db: Session, book: BookCreate):
