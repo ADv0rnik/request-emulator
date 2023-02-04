@@ -9,7 +9,7 @@ from app.schemas.authors import AuthorCreate
 logger = logging.getLogger('emulator')
 
 
-def create_author(db: Session, author: AuthorCreate):
+def create_author(db: Session, author: AuthorCreate) -> Author:
     db_author = Author(
         first_name=author.first_name,
         last_name=author.last_name
@@ -19,6 +19,10 @@ def create_author(db: Session, author: AuthorCreate):
     db.refresh(db_author)
     logger.info(f"Created author {author.first_name}{author.last_name}")
     return db_author
+
+
+def get_author_by_id(db: Session,  author_id: int) -> Author:
+    return db.query(Author).filter(Author.id == author_id).first()
 
 
 def get_author_by_last_name(db: Session, last_name: str) -> Author:

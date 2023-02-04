@@ -10,7 +10,7 @@ class AuthorCreate(AuthorBase):
     ...
 
 
-class Author(BaseModel):
+class Author(AuthorBase):
     id: int
 
     class Config:
