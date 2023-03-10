@@ -2,4 +2,4 @@
 
 ### request-emulator
 
-Small web application with API for practicing requests
+Small API for requests practice
