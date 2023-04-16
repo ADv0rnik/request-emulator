@@ -1,33 +1,60 @@
 import os
 from pathlib import Path
-from pydantic import BaseSettings
-from pydantic.networks import AnyHttpUrl
+from pydantic import BaseSettings, AnyHttpUrl
 
 BASE_DIR = (Path(__file__) / ".." / ".." / ".." / "..").resolve()
-ENV_PATH = (os.path.join(BASE_DIR, ".env"))
+ENV_PATH = os.path.join(BASE_DIR, ".env")
 
 
 class Settings(BaseSettings):
+    API_V1_STR: str = "/bs/v1"
     PROJECT_NAME: str
     PROJECT_VERSION: str
     PROJECT_HOST: str
     PROJECT_PORT: int
 
-    INIT_AUTHOR: list = [
-        {"fname": "John", "lname": "Tolkien"},
-        {"fname": "Aizek", "lname": "Azimov"}
-    ]
-    INIT_BOOK: list = [
-        {"title": "Hobbit", "description": "Bilbo's adventures", "rating": 10, "author_id": 1},
-        {"title": "Robot dreams", "description": "About robots", "rating": 9, "author_id": 2}
-    ]
+    DB_USER: str
+    DB_NAME: str
+    DB_PASS: str
+    DB_HOST: str
+    DB_PORT: int
 
     ALLOWED_ORIGIN: list[AnyHttpUrl] = [
         'http://localhost',
-        'http://127.0.0.1'
+        'http://127.0.0.1',
+        'http://0.0.0.0'
     ]
 
-    API_URL: str = "/emulator/v1"
+    INIT_AUTHOR: list = [
+        {"first_name": "John", "last_name": "Tolkien"},
+        {"first_name": "Aizek", "last_name": "Azimov"}
+    ]
+
+    INIT_BOOK: list = [
+        {"title": "Hobbit", "description": "Bilbo's adventures", "amount": 10, "price": 10.50, "author_id": 1},
+        {"title": "Robot dreams", "description": "about robots", "amount": 8, "price": 12.50, "author_id": 2}
+    ]
+
+    INIT_ROLE: list = [
+        {"name": "admin"},
+        {"name": "user"}
+    ]
+
+    INIT_USER: dict = {
+        "username": "User1",
+        "email": "user@test.com",
+        "password": "U12e-!aQ",
+        "is_active": "true",
+        "role_id": 1
+    }
+
+    INIT_ORDER: dict = {
+        "status": "pending",
+        "description": "test",
+        "cost": 1.00,
+        "user_id": 1,
+        "book_id": 1
+    }
 
     class Config:
         env_file = ENV_PATH
@@ -37,35 +64,34 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
-
 LOGGING_CONFIG = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(levelname)-7s %(asctime)s %(message)s'
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'standard'
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs', 'emulator.log'),
-            'formatter': 'standard',
-            'maxBytes': 10 * 1024 * 1024,
-            'backupCount': 100,
-            'encoding': 'UTF-8'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "standard": {
+            "format": "%(levelname)-7s %(asctime)s %(message)s"
         }
     },
-    'loggers': {
-        'emulator': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "standard"
+        },
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, 'logs', 'api.log'),
+            "formatter": "standard",
+            "encoding": "UTF-8",
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 1000
+        }
+    },
+    "loggers": {
+        "bookshelf": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG"
         }
     }
 }

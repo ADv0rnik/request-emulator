@@ -7,7 +7,7 @@ LOAD_FIXTURE=True
 if [ "$LOAD_FIXTURE" = True ]
 then
   echo "Run init database"
-  python initial_db.py
+  python run_db.py
 fi
 
 python main.py

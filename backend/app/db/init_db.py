@@ -1,33 +1,60 @@
+import logging
+
+from pydantic import ValidationError
 from sqlalchemy.orm import Session
-from app.core.config import settings
 
-from app.schemas.authors import AuthorCreate
-from app.schemas.books import BookCreate
+from app.core.config import Settings
+from app.schemas.author import AuthorCreateModel
+from app.schemas.book import BookCreateModel
+from app.schemas.user import UserCreateModel
 
-from app.crud.author import create_author
-from app.crud.book import create_book
+from app.crud.user import create_init_user
+from app.crud.book import create_init_book
+from app.crud.author import create_init_author
+
+
+settings = Settings()
+logger = logging.getLogger('bookshelf')
 
 
 def init_db(db: Session):
-    create_init_author(db)
-    create_init_book(db)
+    create_user(db)
+    create_author(db)
+    create_book(db)
 
 
-def create_init_author(db: Session):
+def create_user(db: Session):
+    user = settings.INIT_USER
+    try:
+        db_user = UserCreateModel(
+            username=user['username'],
+            email=user['email'],
+            password=user['password'],
+            is_active=user['is_active'],
+            role_id=user['role_id']
+        )
+    except ValidationError as e:
+        logger.error(f"An error occur while creating model {e}")
+    else:
+        create_init_user(db, db_user)
+
+
+def create_author(db: Session):
     for author in settings.INIT_AUTHOR:
-        db_author = AuthorCreate(
-            first_name=author["fname"],
-            last_name=author["lname"]
+        db_author = AuthorCreateModel(
+            first_name=author['first_name'],
+            last_name=author['last_name']
         )
-        create_author(db, db_author)
+        create_init_author(db, db_author)
 
 
-def create_init_book(db: Session):
+def create_book(db: Session):
     for book in settings.INIT_BOOK:
-        db_book = BookCreate(
-            title=book["title"],
-            description=book["description"],
-            rating=book["rating"],
-            author_id=book["author_id"]
+        db_book = BookCreateModel(
+            title=book['title'],
+            description=book['description'],
+            amount=book['amount'],
+            price=book['price'],
+            author_id=book['author_id']
         )
-        create_book(db, db_book)
+        create_init_book(db, db_book)

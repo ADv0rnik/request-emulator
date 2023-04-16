@@ -1,26 +1,31 @@
-import uvicorn
 import logging.config
-from fastapi import FastAPI, APIRouter
+
+import uvicorn
+from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app.core.config import Settings, settings, LOGGING_CONFIG
-from app.api.routes import router
+from app.core.config import Settings
+from app.core.config import LOGGING_CONFIG
+from app.api.api import api_router
+
 
 logging.config.dictConfig(LOGGING_CONFIG)
-logger = logging.getLogger('emulator')
+logger = logging.getLogger("bookshelf")
 
 
-def start_application(config: Settings) -> FastAPI:
+def start_application(config: Settings):
     application = FastAPI(
         debug=True,
         title=config.PROJECT_NAME,
         version=config.PROJECT_VERSION,
-        openapi_url=f"{config.API_URL}/request_emulator.json",
-        docs_url=f"{config.API_URL}/docs",
-        redoc_url=f"{config.API_URL}/redoc"
+        description="Book store emulator",
+        openapi_url=f"{settings.API_V1_STR}/bookshelf.json",
+        docs_url=f"{settings.API_V1_STR}/docs"
     )
     return application
 
+
+settings = Settings()
 
 app = start_application(settings)
 
@@ -32,9 +37,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-api_router = APIRouter(prefix=settings.API_URL)
-api_router.include_router(router)
-app.include_router(api_router)
+
+app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
 if __name__ == "__main__":
