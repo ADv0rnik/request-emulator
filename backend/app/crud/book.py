@@ -2,41 +2,31 @@ import logging
 from typing import List
 
 from sqlalchemy.orm import Session
-
-from app.models.models import Book
-from app.schemas.books import BookCreate, BookUpdate
-
-logger = logging.getLogger('emulator')
+from app.models.book import Book
 
 
-def create_book(db: Session, book: BookCreate):
+logger = logging.getLogger('bookshelf')
+
+
+def create_init_book(db: Session, book: Book) -> Book:
     db_book = Book(
         title=book.title,
         description=book.description,
-        rating=book.rating,
+        amount=book.amount,
+        price=book.price,
         author_id=book.author_id
     )
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
+    logger.info(f'Created book {db_book}')
     return db_book
-
-
-def get_book_by_title(db: Session, title: str) -> Book:
-    return db.query(Book).filter(Book.title == title).first()
-
-
-def get_books(db: Session) -> List[Book]:
-    return db.query(Book).all()
 
 
 def get_book_by_id(db: Session, book_id: int) -> Book:
     return db.query(Book).filter(Book.id == book_id).first()
 
 
-def update_book_by_id(db: Session, db_book: Book, book: BookUpdate):
-    book_data = book.dict(exclude_unset=True)
-    for key, value in book_data.items():
-        setattr(db_book, key, value)
-    db.commit()
-    db.refresh(db_book)
+def get_book_list(db: Session) -> List[Book]:
+    return db.query(Book).all()
+

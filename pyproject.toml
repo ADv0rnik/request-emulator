@@ -1,21 +1,21 @@
 [tool.poetry]
-name = "request-emulator"
+name = "request_emulator"
 version = "0.1.0"
-description = ""
-authors = ["Alex Dvornik <aadvornik@gmail.com>"]
+description = "small API for learning"
+authors = ["alDv0rnik <learn.bio@yandex.ru>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "request_emulator"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-fastapi = {extras = ["all"], version = "^0.88.0"}
-pydantic = "^1.10.2"
-SQLAlchemy = "^1.4.45"
-alembic = "^1.9.1"
-psycopg2-binary = "^2.9.5"
-databases = "^0.7.0"
-asyncpg = "^0.27.0"
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.94.0"}
+pydantic = "^1.10.6"
+sqlalchemy = "^2.0.5.post1"
+alembic = "^1.10.2"
+psycopg2-binary = "^2.9.6"
 
-[tool.poetry.dev-dependencies]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
