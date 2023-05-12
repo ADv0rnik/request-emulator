@@ -1,6 +1,12 @@
 version: '3.9'
 
 services:
+  redis:
+    container_name: redis
+    image: redis:7
+    command: --port 5370
+    expose:
+      - 5370
   db:
     image: postgres:14.5
     container_name: postgres
@@ -37,6 +43,7 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - redis
     restart: always
     command: bash -c "cd ./request_emulator/backend && python main.py"
 
