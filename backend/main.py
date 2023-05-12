@@ -8,6 +8,11 @@ from app.core.config import Settings
 from app.core.config import LOGGING_CONFIG
 from app.api.api import api_router
 
+from redis import asyncio as aioredis
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
 
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger("bookshelf")
@@ -39,6 +44,11 @@ app.add_middleware(
 
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+@app.on_event("startup")
+async def startup_app():
+    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 
 
 if __name__ == "__main__":

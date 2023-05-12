@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: int
 
+    REDIS_HOST: str
+
     ALLOWED_ORIGIN: list[AnyHttpUrl] = [
         'http://localhost',
         'http://127.0.0.1',
