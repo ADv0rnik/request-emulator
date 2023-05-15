@@ -4,51 +4,19 @@
 
 Small web application with API for practicing requests
 
-```
-request-emulator
-├─ backend
-│  ├─ alembic
-│  │  ├─ env.py
-│  │  ├─ README
-│  │  ├─ script.py.mako
-│  │  └─ versions
-│  │     └─ 84d868244fae_new_migration.py
-│  ├─ alembic.ini
-│  ├─ app
-│  │  ├─ api
-│  │  │  ├─ routes.py
-│  │  │  └─ __init__.py
-│  │  ├─ core
-│  │  │  ├─ config.py
-│  │  │  └─ __init__.py
-│  │  ├─ crud
-│  │  │  ├─ author.py
-│  │  │  ├─ book.py
-│  │  │  └─ __init__.py
-│  │  ├─ db
-│  │  │  ├─ db_setup.py
-│  │  │  ├─ init_db.py
-│  │  │  ├─ session.py
-│  │  │  └─ __init__.py
-│  │  ├─ models
-│  │  │  ├─ mixin.py
-│  │  │  ├─ models.py
-│  │  │  └─ __init__.py
-│  │  ├─ schemas
-│  │  │  ├─ authors.py
-│  │  │  ├─ books.py
-│  │  │  └─ __init__.py
-│  │  └─ __init__.py
-│  ├─ initial_db.py
-│  ├─ main.py
-│  └─ __init__.py
-├─ docker-compose.yml
-├─ Dockerfile
-├─ poetry.lock
-├─ pyproject.toml
-├─ README.md
-├─ requirements.txt
-└─ scripts
-   └─ start_app.sh
+#### Usage
 
+The application require Python version 3.10 or older and Poetry. In order to install the application on your local machine go through the following steps:
+1. clone the repo using comand
+ ```
+git clone https://github.com/ADv0rnik/request-emulator.git
+ ```
+2. Install and activate virtual environment.
+For UNIX-based systems:
+```commandline
+   python -m venv venv
+   source venv/bin/activate
 ```
+3. Run installation of dependencies `poetry install` 
+4. Build and run docker containers by using `docker compose up --build -d`.
+   The docker will run the `start_app.sh` script. While running the application for first time, make sure that `LOAD_FIXTURE` flag is set to `True`. This will allow to upload an initial data into database.

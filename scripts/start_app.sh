@@ -2,7 +2,7 @@
 
 cd backend/ && alembic upgrade head
 
-LOAD_FIXTURE=True
+LOAD_FIXTURE=False
 
 if [ "$LOAD_FIXTURE" = True ]
 then
