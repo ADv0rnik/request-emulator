@@ -4,9 +4,11 @@ services:
   redis:
     container_name: redis
     image: redis:7
-    command: --port 5370
+    command: --port 6379
     expose:
-      - 5370
+      - 6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
   db:
     image: postgres:14.5
     container_name: postgres
@@ -21,6 +23,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
     ports:
       - ${DB_PORT}:${DB_PORT}
+    depends_on:
+      - redis
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -28,7 +32,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
     ports:
-      - 5050:80
+      - 5555:80
     depends_on:
       - db
     volumes:
@@ -45,7 +49,7 @@ services:
       - db
       - redis
     restart: always
-    command: bash -c "cd ./request_emulator/backend && python main.py"
+    command: bash -c "cd ./request_emulator && sh ./scripts/start_app.sh"
 
 volumes:
   postgres_data:
