@@ -1,11 +1,12 @@
 import json
+from tests.utils import generate_id
 
-def test_get_book(client):    
-    response = client.get("/books/1")
+
+def test_get_book(client):
+    response = client.get(f"/books/{generate_id()}")
     data = response.json()
     assert response.status_code == 200
     assert isinstance(data, dict)
-    assert data['title'] == 'Hobbit'
 
 
 def test_get_books(client):

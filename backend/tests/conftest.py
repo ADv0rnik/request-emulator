@@ -7,13 +7,11 @@ from sqlalchemy.orm import sessionmaker
 from fastapi.testclient import TestClient
 from fastapi import FastAPI
 
-
 from app.db.base import Base
 from app.db.session import get_db
 from app.core.config import settings
 from app.api.api import api_router
 from backend.app.db.init_db import create_book, create_author
-
 
 
 TEST_SQLALCHEMY_DATABASE_URL = f'postgresql+psycopg2://{settings.TEST_DB_USER}:{settings.TEST_DB_PASS}@' \
@@ -51,7 +49,6 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     session.close()
     transaction.rollback()
     connection.close()
-
 
 
 @pytest.fixture(scope="function")
