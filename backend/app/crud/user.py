@@ -19,3 +19,7 @@ def create_init_user(db: Session, user: User) -> User:
     db.refresh(db_user)
     logger.info(f'Created user {db_user}')
     return db_user
+
+
+def get_user(db: Session, user_id: int) -> User:
+    return db.query(User).filter(User.id == user_id).first()

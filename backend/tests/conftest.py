@@ -11,7 +11,7 @@ from app.db.base import Base
 from app.db.session import get_db
 from app.core.config import settings
 from app.api.api import api_router
-from backend.app.db.init_db import create_book, create_author
+from backend.app.db.init_db import create_book, create_author, create_user
 
 
 TEST_SQLALCHEMY_DATABASE_URL = f'postgresql+psycopg2://{settings.TEST_DB_USER}:{settings.TEST_DB_PASS}@' \
@@ -44,6 +44,7 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     session = SessionTesting(bind=connection)
     create_author(session)
     create_book(session)
+    create_user(session)
 
     yield session 
     session.close()

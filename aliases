@@ -1,1 +1,4 @@
 alias run_emulator='docker compose up --build -d'
+alias run_emulator_test='docker compose -f docker-compose.test.yml -p compose_for_tests up -d'
+alias run_test_logs='docker logs api-test'
+alias stop_tests='docker compose -p compose_for_tests down'
