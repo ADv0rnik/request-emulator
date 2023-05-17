@@ -19,6 +19,7 @@ pytest = "^7.3.1"
 pytest-cov = "^4.0.0"
 redis = "^4.5.5"
 fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
+names = "^0.3.0"
 
 
 
@@ -28,6 +29,5 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.pytest.ini_options]
-pythonpath = [
-  ".", "backend"
-]
+pythonpath = [".", "backend"]
+

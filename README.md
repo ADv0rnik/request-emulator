@@ -18,5 +18,7 @@ For UNIX-based systems:
    source venv/bin/activate
 ```
 3. Run installation of dependencies `poetry install` 
-4. Build and run docker containers by using `docker compose up --build -d`.
-   The docker will run the `start_app.sh` script. While running the application for first time, make sure that `LOAD_FIXTURE` flag is set to `True`. This will allow to upload an initial data into database.
+4. Run command `source aliases`
+5. Run command `run_emulator`
+
+The docker will run the `start_app.sh` script. While running the application for first time, make sure that `LOAD_FIXTURE` flag is set to `True`. This will allow to upload an initial data into database.

@@ -1,8 +1,12 @@
 import logging
 from typing import List
+from unittest import mock
+
+mock.patch("fastapi_cache.decorator.cache", lambda *args, **kwargs: lambda f: f).start()
 
 from fastapi import APIRouter, Depends, HTTPException
 from app.db.session import get_db
+from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 
 from app.schemas.book import BookModel
@@ -23,6 +27,7 @@ async def get_book(book_id: int, db: Session = Depends(get_db)):
 
 
 @book_router.get('/', response_model=List[BookModel])
+@cache(expire=3600)
 async def get_books(db: Session = Depends(get_db)):
     return get_book_list(db)
 
