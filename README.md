@@ -2,7 +2,7 @@
 
 ### Bookstore emulator
 
-Small web application with API for practicing requests
+Small REST API based web application for educational purposes 
 
 #### Usage
 
@@ -22,3 +22,9 @@ For UNIX-based systems:
 5. Run command `run_emulator`
 
 The docker will run the `start_app.sh` script. While running the application for first time, make sure that `LOAD_FIXTURE` flag is set to `True`. This will allow to upload an initial data into database.
+
+#### Test
+
+1. From root directory run command `run_emulator_test`. This will execute docker compose instructions
+2. To check test results run `show_logs`
+3. Remove test containers by following command `stop_tests`
