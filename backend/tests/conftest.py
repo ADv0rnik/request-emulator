@@ -44,7 +44,6 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     session = SessionTesting(bind=connection)
     create_author(session)
     create_book(session)
-    create_user(session)
 
     yield session 
     session.close()
