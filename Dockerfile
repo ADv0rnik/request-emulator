@@ -44,3 +44,9 @@ FROM python-base as production
 
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./ ./request_emulator
+
+WORKDIR ./request_emulator/backend
+
+RUN alembic upgrade head
+
+CMD ["python", "main.py"]
