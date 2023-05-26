@@ -52,10 +52,10 @@ async def startup_app():
 
 
 if __name__ == "__main__":
+    logger.info("Start application")
     uvicorn.run(
         "main:app",
         port=int(settings.PROJECT_PORT),
         host=settings.PROJECT_HOST,
         reload=True
     )
-    logger.info("Start application")
