@@ -46,6 +46,3 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./ ./request_emulator
 
 WORKDIR ./request_emulator/backend
-
-EXPOSE 8000
-
