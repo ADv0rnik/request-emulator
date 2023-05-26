@@ -9,7 +9,6 @@ from app.models.order import Order
 from app.models.order_book import OrderBook
 from app.crud.book import get_book_by_id
 
-
 logger = logging.getLogger('bookshelf')
 
 
@@ -82,3 +81,10 @@ async def update_order(db: Session, order: Order, book_id: int) -> Order:
         return {"status": 500, "message": f"{err}"}
     except UnmappedInstanceError as err:
         return {"status": 500, "message": f"{err}"}
+
+
+async def close_order(db: Session, order: Order):
+    order.status = "processing"
+    db.commit()
+    db.refresh(order)
+    return {"result": "success"}

@@ -23,6 +23,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
     ports:
       - ${DB_PORT}:${DB_PORT}
+    command: -p ${DB_PORT}
     depends_on:
       - redis
   pgadmin:

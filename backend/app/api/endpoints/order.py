@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 
-from app.crud.order import create_order, get_order_by_id, update_order
+from app.crud.order import create_order, get_order_by_id, update_order, close_order
 from app.schemas.order import OrderModel, OrderCreateModel, OrderUpdateModel
 
 
@@ -25,6 +25,18 @@ async def add_to_order(order_id: int, book_id: int, db: Session = Depends(get_db
     if db_order := await get_order_by_id(db, order_id):
         if db_order.status == "pending":
             return await update_order(db, db_order, book_id)
+        else:
+            logger.info(f"The order with id={order_id} has been closed")
+            return HTTPException(status_code=200, detail=f"The order with id={order_id} has been closed")
+    else:
+        return HTTPException(status_code=404, detail=f"The order with id={order_id} not found")
+
+
+@order_router.put('/order/{order_id}/complete', response_model=dict)
+async def finalize_order(order_id: int, db: Session = Depends(get_db)):
+    if db_order := await get_order_by_id(db, order_id):
+        if db_order.status == "pending":
+            return await close_order(db, db_order)
         else:
             logger.info(f"The order with id={order_id} has been closed")
             return HTTPException(status_code=200, detail=f"The order with id={order_id} has been closed")
