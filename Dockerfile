@@ -47,6 +47,4 @@ COPY ./ ./request_emulator
 
 WORKDIR ./request_emulator/backend
 
-RUN alembic upgrade head
-
 CMD ["python", "main.py"]
