@@ -50,3 +50,12 @@ async def startup_app():
     redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        port=int(settings.PROJECT_PORT),
+        host=settings.PROJECT_HOST,
+        reload=True
+    )
+    logger.info("Start application")
+    
