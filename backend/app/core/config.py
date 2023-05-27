@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     PROJECT_VERSION: str
     PROJECT_HOST: str
-    PORT: int
+    PORT: int  # Use the name variable PORT for deploy to railway.app. Do not change it to another name!
 
     DB_USER: str
     DB_NAME: str
@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     TEST_DB_NAME: str
     TEST_DB_HOST: str
     TEST_DB_PORT: int
-      
+
     REDIS_HOST: str
 
     ALLOWED_ORIGIN: list[AnyHttpUrl] = [
