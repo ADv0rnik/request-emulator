@@ -21,3 +21,4 @@ def get_author(author_id: int, db: Session = Depends(get_db)) -> Author:
     else:
         logger.error(f'Author does\'t with id={author_id} exist')
         raise HTTPException(status_code=404, detail=f'Author does\'t with id={author_id} exist')
+
