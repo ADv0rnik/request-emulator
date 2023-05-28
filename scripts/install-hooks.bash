@@ -11,7 +11,7 @@ GIT_DIR=$(eval "$git_command")
 
 echo -e "${BGreen}Installing hooks...${BGreen}"
 
-# Create symlink to our
+# Create symlink
 ln -s ../../request-emulator/scripts/pre-commit.bash "$GIT_DIR"/hooks/pre-commit
 
 # shellcheck disable=SC2181
