@@ -29,6 +29,10 @@ The docker will run the `start_app.sh` script. While running the application for
 2. To check test results run `show_logs`
 3. Remove test containers by following command `stop_tests`
 
+#### Installing pre-commit hooks
+1. While on your local machine run `install-hooks.bash` script from `.\scripts` directory to set up the configuration
+2. Git will run the `pre-commit` script each time you commit some code to remote repo
+
 #### Deploy to Railway.app
 
 1. Create a PostgreSQL instance in your railway.app account.
