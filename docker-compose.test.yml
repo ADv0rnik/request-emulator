@@ -21,4 +21,4 @@ services:
       - 8000:8000
     depends_on:
       - db-test
-    command: bash -c "cd ./request_emulator && PYTHONPATH=/request_emulator/backend pytest"
+    command: bash -c "PYTHONPATH=/request_emulator/backend pytest"

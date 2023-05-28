@@ -50,7 +50,7 @@ services:
       - db
       - redis
     restart: always
-    command: bash -c "cd ./request_emulator && sh ./scripts/start_app.sh"
+    command: bash -c "cd .. && sh ./scripts/start_app.sh"
 
 volumes:
   postgres_data:
