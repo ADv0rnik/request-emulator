@@ -2,7 +2,7 @@ import pytest
 
 
 def test_get_author(client):
-    response = client.get("/authors/1")
+    response = client.get("/1")
     data = response.json()
     assert response.status_code == 200
     assert data['first_name'] == 'John'
