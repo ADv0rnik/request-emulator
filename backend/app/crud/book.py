@@ -9,17 +9,11 @@ logger = logging.getLogger('bookshelf')
 
 
 def create_init_book(db: Session, book: Book) -> Book:
-    db_book = Book(
-        title=book.title,
-        description=book.description,
-        amount=book.amount,
-        price=book.price,
-        author_id=book.author_id
-    )
+    db_book = Book(**book.dict())
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
-    logger.info(f'Created book {db_book}')
+    logger.info(f'Created book {db_book.title} with id={db_book.id}')
     return db_book
 
 

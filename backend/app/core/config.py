@@ -27,6 +27,10 @@ class Settings(BaseSettings):
 
     REDIS_HOST: str
 
+    JWT_ALGORITHM: str
+    JWT_EXPIRE_MINUTES: int
+    JWT_SECRET: str
+
     ALLOWED_ORIGIN: list[AnyHttpUrl] = [
         'http://localhost',
         'http://127.0.0.1',

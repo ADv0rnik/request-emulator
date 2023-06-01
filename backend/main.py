@@ -25,7 +25,8 @@ def start_application(config: Settings):
         version=config.PROJECT_VERSION,
         description="Book store emulator",
         openapi_url=f"{settings.API_V1_STR}/bookshelf.json",
-        docs_url=f"{settings.API_V1_STR}/docs"
+        docs_url=f"{settings.API_V1_STR}/docs",
+        redoc_url=f"{settings.API_V1_STR}/redoc"
     )
     return application
 
@@ -34,6 +35,7 @@ settings = Settings()
 
 app = start_application(settings)
 
+app.include_router(api_router, prefix=settings.API_V1_STR)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGIN,
@@ -41,8 +43,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
 @app.on_event("startup")

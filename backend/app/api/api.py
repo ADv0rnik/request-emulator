@@ -10,7 +10,7 @@ api_router.include_router(
 )
 
 api_router.include_router(
-    order.order_router, tags=["Order"]
+    order.order_router, prefix='/authors', tags=["Order"]
 )
 
 

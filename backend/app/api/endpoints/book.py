@@ -9,8 +9,9 @@ from app.db.session import get_db
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
 
-from app.schemas.book import BookModel
-from app.crud.book import get_book_list, get_book_by_id
+from app.schemas.book import BookModel, BookCreateModel
+from app.crud.book import get_book_list, get_book_by_id, create_init_book
+from app.crud.author import get_author_by_id
 
 
 book_router = APIRouter()
@@ -32,3 +33,9 @@ async def get_books(db: Session = Depends(get_db)):
     return get_book_list(db)
 
 
+@book_router.post('/book', response_model=BookModel)
+async def create_book(book: BookCreateModel, db: Session = Depends(get_db)):
+    if get_author_by_id(db, book.author_id):
+        return create_init_book(db, book)
+    logger.error(msg=f'Author with id={book.author_id} not found')
+    return HTTPException(status_code=404, detail=f'Author with id={book.author_id} not found')
