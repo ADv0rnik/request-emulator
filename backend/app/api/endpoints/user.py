@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 
-from app.schemas.user import UserModel, UserCreateModel
+from app.schemas.user import UserOutModel, UserCreateModel, UserModel
 from app.crud.user import create_init_user, get_user_by_email, get_user
 
 
@@ -21,11 +21,17 @@ async def create_user(user: UserCreateModel, db: Session = Depends(get_db)):
         return create_init_user(db, user)
 
 
-@user_router.get('/{user_id}', response_model=UserModel)
+@user_router.get('/{user_id}', response_model=UserOutModel)
 async def return_user(user_id: int, db: Session = Depends(get_db)):
     if user := get_user(db, user_id):
         logger.info(f'Return user {user.id}')
-        return user
+        return UserOutModel(
+            id=user.id,
+            username=user.username,
+            email=user.email,
+            role_id=user.role_id,
+            role=user.role.name
+        )
     logger.error(msg=f'User with {user_id} not found')
     return HTTPException(status_code=404, detail=f'User with {user_id} not found')
 

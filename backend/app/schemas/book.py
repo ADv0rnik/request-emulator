@@ -21,7 +21,7 @@ class BookUpdateModel(BookBaseModel):
 class BookOutModel(BookBaseModel):
     id: int
     title: str = Field(alias='book_title')
-    description: str = Field(alias='book_description')
+    description: str = Field(alias='book_description', title='Book description')
     price: float = Field(..., exclude=True, alias='book_price')
     author_id: int = Field(..., exclude=True, alias='book_author_id')
     amount: int = Field(..., exclude=True)

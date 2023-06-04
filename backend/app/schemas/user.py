@@ -31,8 +31,9 @@ class UserModel(UserBaseModel):
         orm_mode = True
 
 
-class CurrentUserModel(UserBaseModel):
+class UserOutModel(UserBaseModel):
     id: int
+    role: str
 
     class Config:
         orm_mode = True

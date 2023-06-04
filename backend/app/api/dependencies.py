@@ -9,7 +9,7 @@ from app.core.config import settings
 from app.core.security import verify_password
 from app.db.session import get_db
 from app.models.user import User
-from app.schemas.user import CurrentUserModel
+from app.schemas.user import UserOutModel
 from app.crud.user import get_user_by_email
 
 
@@ -42,12 +42,12 @@ async def get_current_user(
         email = payload.get('sub')
         if user := get_user_by_email(db, email) is None:
             raise credentials_exception
-        return CurrentUserModel(
+        return UserOutModel(
             id=user.id,
             username=user.username,
             email=user.email,
             role_id=user.role_id,
-            role=user.role
+            role=user.role.name
         )
 
 
