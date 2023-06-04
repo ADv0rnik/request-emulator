@@ -31,6 +31,12 @@ class UserModel(UserBaseModel):
         orm_mode = True
 
 
+class CurrentUserModel(BaseModel):
+    id: int
+    email: str
+    role_id: int
+
+
 class UserOutModel(UserBaseModel):
     id: int
     role: str

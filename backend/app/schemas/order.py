@@ -13,11 +13,10 @@ class Status(str, enum.Enum):
 
 class OrderBaseModel(BaseModel):
     description: Optional[str] = Field(default="New order")
-    user_id: int
 
 
 class OrderCreateModel(OrderBaseModel):
-    ...
+    description: Optional[str] = Field(default="New order")
 
 
 class OrderUpdateModel(OrderBaseModel):
@@ -29,6 +28,7 @@ class OrderModel(OrderBaseModel):
     id: int
     status: Status
     cost: float
+    user_id: int
     books: List[BookOutModel]
 
     class Config:

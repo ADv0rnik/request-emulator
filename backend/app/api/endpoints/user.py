@@ -2,10 +2,11 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
-from app.db.session import get_db
 
+from app.db.session import get_db
 from app.schemas.user import UserOutModel, UserCreateModel, UserModel
 from app.crud.user import create_init_user, get_user_by_email, get_user
+from app.api.dependencies import get_current_user
 
 
 user_router = APIRouter()
@@ -22,7 +23,7 @@ async def create_user(user: UserCreateModel, db: Session = Depends(get_db)):
 
 
 @user_router.get('/{user_id}', response_model=UserOutModel)
-async def return_user(user_id: int, db: Session = Depends(get_db)):
+async def return_user(user_id: int, db: Session = Depends(get_db), _=Security(get_current_user)):
     if user := get_user(db, user_id):
         logger.info(f'Return user {user.id}')
         return UserOutModel(
