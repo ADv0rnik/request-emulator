@@ -1,3 +1,5 @@
+from typing import List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -7,7 +9,6 @@ USER_PASSWORD_REGEX = r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])
 class UserBaseModel(BaseModel):
     username: str
     email: str
-    is_active: bool
     role_id: int
 
 
@@ -30,7 +31,18 @@ class UserModel(UserBaseModel):
         orm_mode = True
 
 
+class CurrentUserModel(UserBaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str
-    username: str
+    email: str
+
+
+class TokenData(BaseModel):
+    email: str | None = None
