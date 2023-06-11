@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
@@ -11,8 +12,7 @@ class User(Timestamp, Base):
     username = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False)
     password = Column(String(100), nullable=False)
-    is_active = Column(Boolean, nullable=False)
     role_id = Column(Integer, ForeignKey('role.id'), nullable=False, default=2)
 
-    role = relationship("Role", back_populates="user")
+    role = relationship("Role", back_populates="user", lazy="joined")
     order = relationship("Order", back_populates="user_order")

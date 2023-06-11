@@ -35,12 +35,12 @@ def create_order_book(db: Session, order_id: int, book_id: int):
     commit_changes(db, db_order_book)
 
 
-def create_order(db: Session, order: Order, book_id: int) -> Order:
+def create_order(db: Session, order: Order, book_id: int, user_id: int) -> Order:
     if cost := return_cost(db, book_id=book_id):
         db_order = Order(
-            description=order.description,
-            cost=cost,
-            user_id=order.user_id
+            **order.dict(),
+            user_id=user_id,
+            cost=cost
         )
         commit_changes(db, db_order)
 
@@ -49,7 +49,7 @@ def create_order(db: Session, order: Order, book_id: int) -> Order:
             book_id=book_id
         )
         commit_changes(db, db_order_book)
-        logger.info(f"Order {db_order} created")
+        logger.info(f"Order {db_order.id} created")
         return db_order
 
 

@@ -20,6 +20,8 @@ pytest-cov = "^4.0.0"
 redis = "^4.5.5"
 fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
 names = "^0.3.0"
+fastapi-users = "^11.0.0"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 
 
 

@@ -5,7 +5,7 @@ BGreen='\033[1;32m'
 
 echo -e "${BGreen}Running pre-commit hook...${BGreen}"
 
-./run-tests.bash
+../../request-emulator/scripts/run-tests.bash
 
 # shellcheck disable=SC1009
 # shellcheck disable=SC1073
