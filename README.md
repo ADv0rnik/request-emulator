@@ -1,4 +1,6 @@
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
+![GitHub language count](https://img.shields.io/github/languages/count/ADv0rnik/SpecReader?style=flat-square)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-3113/)
 
 ### Bookstore emulator
 
@@ -29,9 +31,12 @@ The docker will run the `start_app.sh` script. While running the application for
 2. To check test results run `show_logs`
 3. Remove test containers by following command `stop_tests`
 
-#### Installing pre-commit hooks
+#### Installing pre-commit hooks for tests
 1. While on your local machine run `install-hooks.bash` script from `.\scripts` directory to set up the configuration
 2. Git will run the `pre-commit` script each time you commit some code to remote repo
+
+Alternatively tou might create a pre-commit hook directly inside `.git/hooks` directory to be triggered on commit event
+
 
 #### Deploy to Railway.app
 
