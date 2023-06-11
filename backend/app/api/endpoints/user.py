@@ -22,7 +22,7 @@ async def create_user(user: UserCreateModel, db: Session = Depends(get_db)):
         return create_init_user(db, user)
 
 
-@user_router.get('/{user_id}', response_model=UserOutModel)
+@user_router.get('/{user_id}')
 async def return_user(user_id: int, db: Session = Depends(get_db), _=Security(get_current_user)):
     if user := get_user(db, user_id):
         logger.info(f'Return user {user.id}')

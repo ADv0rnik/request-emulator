@@ -1,12 +1,14 @@
 import logging
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 
 from app.schemas.author import AuthorModel, AuthorCreateModel
 from app.models.author import Author
 from app.crud.author import get_author_by_id, get_author_list, get_author_by_last_name, create_init_author
+from app.api.dependencies import get_current_user
+
 
 author_router = APIRouter()
 logger = logging.getLogger('bookshelf')
@@ -23,7 +25,11 @@ def get_author(author_id: int, db: Session = Depends(get_db)) -> Author:
 
 
 @author_router.post('/author', response_model=AuthorModel)
-async def create_author(author: AuthorCreateModel, db: Session = Depends(get_db)):
+async def create_author(
+        author: AuthorCreateModel,
+        db: Session = Depends(get_db),
+        _=Security(get_current_user)
+):
     if db_author := get_author_by_last_name(author.last_name, db):
         logger.error(msg=f'Author with {db_author.last_name} already exist')
         return HTTPException(status_code=200, detail=f'Author with {db_author.last_name} already exist')

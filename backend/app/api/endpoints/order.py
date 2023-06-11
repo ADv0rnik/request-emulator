@@ -43,7 +43,11 @@ async def add_to_order(
 
 
 @order_router.put('/order/{order_id}/complete', response_model=dict)
-async def finalize_order(order_id: int, db: Session = Depends(get_db)):
+async def finalize_order(
+        order_id: int,
+        db: Session = Depends(get_db),
+        _=Security(get_current_user)
+):
     if db_order := await get_order_by_id(db, order_id):
         if db_order.status == "pending":
             return await close_order(db, db_order)

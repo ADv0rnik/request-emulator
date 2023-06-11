@@ -4,7 +4,7 @@ from unittest import mock
 
 mock.patch("fastapi_cache.decorator.cache", lambda *args, **kwargs: lambda f: f).start()
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Security
 from app.db.session import get_db
 from fastapi_cache.decorator import cache
 from sqlalchemy.orm import Session
@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from app.schemas.book import BookModel, BookCreateModel
 from app.crud.book import get_book_list, get_book_by_id, create_init_book
 from app.crud.author import get_author_by_id
+from app.api.dependencies import get_current_user
 
 
 book_router = APIRouter()
@@ -34,7 +35,11 @@ async def get_books(db: Session = Depends(get_db)):
 
 
 @book_router.post('/book', response_model=BookModel)
-async def create_book(book: BookCreateModel, db: Session = Depends(get_db)):
+async def create_book(
+        book: BookCreateModel,
+        db: Session = Depends(get_db),
+        _=Security(get_current_user)
+):
     if get_author_by_id(db, book.author_id):
         return create_init_book(db, book)
     logger.error(msg=f'Author with id={book.author_id} not found')
